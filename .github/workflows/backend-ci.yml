@@ -1,0 +1,83 @@
+name: Backend CI
+
+on: 
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Backend
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+
+    - name: Install Dependencies
+      run: |
+        cd backend
+        pipenv install
+
+    - name: Lint Backend
+      run: |
+        cd backend
+        pipenv run flake8 . # or pipenv run pylint, depending on your choice
+
+  test:
+    name: Test Backend
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+
+    - name: Install Dependencies
+      run: |
+        cd backend
+        pipenv install
+
+    - name: Run Tests
+      run: |
+        cd backend
+        pipenv run test
+
+  build:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+
+    - name: Install Dependencies
+      run: |
+        cd backend
+        pipenv install
+
+    - name: Start Flask Application
+      run: |
+        cd backend
+        export FLASK_APP=app.py # adjust to your Flask entry point
+        pipenv run flask run &
+        sleep 10 # giving some time for the server to start
+        curl localhost:5000 # make a simple request to see if it's up
