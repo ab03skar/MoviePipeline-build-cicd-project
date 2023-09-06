@@ -4,8 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'starter/frontend/**'
+
   workflow_dispatch:
 
 jobs:
@@ -20,7 +19,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.14'
+        node-version: latest
 
     - name: Install Dependencies
       run: |
@@ -43,7 +42,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.14'
+        node-version: latest
 
     - name: Install Dependencies
       run: |
@@ -67,7 +66,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.14'
+        node-version: latest
 
     - name: Install Dependencies
       run: |
