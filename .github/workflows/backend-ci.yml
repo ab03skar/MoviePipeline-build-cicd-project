@@ -31,7 +31,7 @@ jobs:
     - name: Run Linter
       run: |
         cd starter/backend
-        pipenv install flake8
+        pipenv install flake8 #idk why it doesnt install
         pipenv run lint
 
   test:
